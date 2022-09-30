@@ -1,7 +1,9 @@
 ﻿using BusinessLayer.Interface;
 using CommanLayer.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using System;
+using System.Threading.Tasks;
 
 namespace FundooApplication.Controllers
 {
@@ -14,22 +16,24 @@ namespace FundooApplication.Controllers
         {
             this.userBL = userBL;
         }
-        [HttpPost("Register")]
+      
+        [Route("Register")]
+        [HttpPost]
         public IActionResult Registration(UserRegistration userRegistration)
         {
             try
             {
                 var result = userBL.UserRegitrations(userRegistration);
-                if(result != null)
+                if (result != null)
                 {
-                    return this.Ok(new {success=true,message="User registration succesfull",data=result});
+                    return this.Ok(new { success = true, message = "User Registration Succesfull", data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new { success = false, message = "User registration Unsuccesfull" });
+                    return this.BadRequest(new { success = false, message = "User Registration UnSuccesfull" });
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
