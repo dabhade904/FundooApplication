@@ -5,18 +5,29 @@ using RepositoryLayer.Interface;
 using System;
 namespace BusinessLayer.Service
 {
-    public class UserBL : IUserBL
+    public class UserBL : IUserInterfaceBL
     {
         private readonly IUserInterfaceRL userInterfaceRL;
         public UserBL(IUserInterfaceRL userInterfaceRL)
         {
             this.userInterfaceRL = userInterfaceRL;
         }
-        public UserEntity UserRegitrations(UserRegistration userRegistration)
+        public UserEntity UserRegistration(Registration registration)
         {
             try
             {
-                return userInterfaceRL.UserRegitrations(userRegistration);
+                return userInterfaceRL.UserRegistration(registration);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public string Login(UserLogin userLogin)
+        {
+            try
+            {
+                return userInterfaceRL.Login(userLogin);
             }
             catch (Exception e)
             {

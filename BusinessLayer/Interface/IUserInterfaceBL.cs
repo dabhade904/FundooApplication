@@ -6,8 +6,9 @@ using System.Text;
 
 namespace BusinessLayer.Interface
 {
-    public interface IUserBL
+    public interface IUserInterfaceBL
     {
-        public UserEntity UserRegitrations(UserRegistration userRegistration);
+        public UserEntity UserRegistration(Registration registration);
+        public string Login(UserLogin userLogin);
     }
 }
