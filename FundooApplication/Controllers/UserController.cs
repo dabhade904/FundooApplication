@@ -1,5 +1,7 @@
 ﻿using BusinessLayer.Interface;
+using BusinessLayer.Service;
 using CommanLayer.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -16,7 +18,7 @@ namespace FundooApplication.Controllers
         {
             this.userBL = userBL;
         }
-
+      //  [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
         [Route("Register")]
         [HttpPost]
         public IActionResult Regispostration(Registration registration)
@@ -39,7 +41,7 @@ namespace FundooApplication.Controllers
             }
         }
         [AllowAnonymous] 
-        [Route("login")]
+        [Route("Login")]
         [HttpPost]
         public IActionResult Login(UserLogin model) 
         {
@@ -69,5 +71,34 @@ namespace FundooApplication.Controllers
                 throw e;
             }
         }
+        [HttpPost("ForgetPassword")]
+        public IActionResult ForgetPassword(string emailId)
+        {
+            try
+            {
+                var result = userBL.ForgetPassword(emailId);
+                if (result != null)
+                {
+                    return this.Ok(new
+                    {
+                        success = true,
+                        message = "Email Send Successfully",
+                        tokan = result
+                    });
+                }
+                else
+                {
+                    return this.BadRequest(new
+                    {
+                        Success = false,
+                        message = "EMail has not send",
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }    
     }
 }
