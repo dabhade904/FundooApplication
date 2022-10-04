@@ -90,5 +90,28 @@ namespace RepositoryLayer.Service
             }
 
         }
+
+        public string ForgetPassword(string emailId)
+        {
+            try
+            {
+                var emailCheck = fundooContext.FundooDbTable.FirstOrDefault(e => e.EmailId == emailId);
+                if(emailCheck != null)
+                {
+                    var takan = JwtMethod(emailCheck.EmailId, emailCheck.UserId);
+                    var msmqObjModel = new MSMQModel();
+                    msmqObjModel.sendData2Queue(takan);
+                    return takan.ToString();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

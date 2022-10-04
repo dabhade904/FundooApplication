@@ -34,5 +34,17 @@ namespace BusinessLayer.Service
                 throw e;
             }
         }
+        public string ForgetPassword(string emailId)
+        {
+            try
+            {
+                return userInterfaceRL.ForgetPassword(emailId);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
