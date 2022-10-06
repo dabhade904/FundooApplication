@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System;
+using System.Security.Claims;
 
 namespace FundooApplication.Controllers
 {
@@ -18,9 +19,9 @@ namespace FundooApplication.Controllers
         {
             this.userBL = userBL;
         }
-      //  [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
-        [Route("Register")]
-        [HttpPost]
+        // [Route]
+        //[Authorize]
+        [HttpPost("Register")]
         public IActionResult Regispostration(Registration registration)
         {
             try
@@ -40,9 +41,9 @@ namespace FundooApplication.Controllers
                 throw;
             }
         }
-        [AllowAnonymous] 
-        [Route("Login")]
-        [HttpPost]
+        //  [AllowAnonymous] 
+        // [Route]
+        [HttpPost("Login")]
         public IActionResult Login(UserLogin model) 
         {
             try
@@ -99,6 +100,34 @@ namespace FundooApplication.Controllers
             {
                 throw;
             }
-        }    
+        }
+        [HttpPost("ResetPassword")]
+        public IActionResult ResetPassword(string emailId,string newPassword,string confirmPassword)
+        { 
+            try
+            {
+                var user = userBL.ResetPassword(emailId, newPassword,confirmPassword);
+                if (user != null)
+                {
+                    return this.Ok(new
+                    {
+                        success = true,
+                        message = "Password Reset successfully",
+                    });
+                }
+                else
+                {
+                    return this.BadRequest(new
+                    {
+                        Success = false,
+                        message = "Invalid Email ",
+                    });
+                }               
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

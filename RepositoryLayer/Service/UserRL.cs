@@ -102,11 +102,33 @@ namespace RepositoryLayer.Service
                     var msmqObjModel = new MSMQModel();
                     msmqObjModel.sendData2Queue(takan);
                     return takan.ToString();
+                   
                 }
                 else
                 {
                     return null;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public bool ResetPassword(string emailId, string newPassword, string confirmPassword)
+        {
+            try
+            {
+                if (newPassword.Equals(confirmPassword))
+                {
+                    var passwordResult = fundooContext.FundooDbTable.FirstOrDefault(e => e.EmailId == emailId);
+                    passwordResult.Password=newPassword;
+                    fundooContext.SaveChanges(); 
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }               
             }
             catch (Exception)
             {

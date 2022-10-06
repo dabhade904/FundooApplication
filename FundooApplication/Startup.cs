@@ -28,44 +28,66 @@ namespace FundooApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-        services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
+            services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
             services.AddControllers();
             services.AddTransient<IUserInterfaceRL, UserRL>();
             services.AddTransient<IUserInterfaceBL, UserBL>();
-            var appSettingSection = Configuration.GetSection("Jwt");
-            services.Configure<AppSettings>(appSettingSection);
-
-            //JWT Authentication
-            var appSettings = appSettingSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Key);
 
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }) // Adding Jwt Bearer  
+            .AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = Configuration["Jwt:ValidAudience"],
+                    ValidIssuer = Configuration["JWT:ValidIssuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
-
+           
             services.AddSwaggerGen();
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(option =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
+                option.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
                     Title = "Implement Swagger UI",
                     Description = "A simple example to Implement Swagger UI",
                 });
+                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter a valid token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "Jwt",
+                    Scheme = "Bearer"
+                });
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type=ReferenceType.SecurityScheme,
+                            Id="Bearer"
+                        }
+                    },
+                    new string[]{}
+                }
+                });
             });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,7 +105,7 @@ namespace FundooApplication
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
 
