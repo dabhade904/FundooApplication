@@ -88,7 +88,6 @@ namespace RepositoryLayer.Service
             {
                 throw;
             }
-
         }
 
         public string ForgetPassword(string emailId)
@@ -101,7 +100,7 @@ namespace RepositoryLayer.Service
                     var takan = JwtMethod(emailCheck.EmailId, emailCheck.UserId);
                     var msmqObjModel = new MSMQModel();
                     msmqObjModel.sendData2Queue(takan);
-                    return takan.ToString();
+                    return takan;
                    
                 }
                 else

@@ -1,8 +1,5 @@
 ﻿using BusinessLayer.Interface;
-using BusinessLayer.Service;
 using CommanLayer.Model;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System;
@@ -19,21 +16,19 @@ namespace FundooApplication.Controllers
         {
             this.userBL = userBL;
         }
-        // [Route]
-        //[Authorize]
         [HttpPost("Register")]
-        public IActionResult Regispostration(Registration registration)
+        public IActionResult Registration(Registration registration)
         {
             try
             {
                 var result = userBL.UserRegistration(registration);
                 if (result != null)
                 {
-                    return this.Ok(new { success = true, message = "User Registration Succesfull", data = result });
+                    return this.Ok(new { success = true, message = "User Registration Successfull", data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new { success = false, message = "User Registration UnSuccesfull" });
+                    return this.BadRequest(new { success = false, message = "User Registration UnSuccessfull" });
                 }
             }
             catch (Exception)
@@ -41,8 +36,6 @@ namespace FundooApplication.Controllers
                 throw;
             }
         }
-        //  [AllowAnonymous] 
-        // [Route]
         [HttpPost("Login")]
         public IActionResult Login(UserLogin model) 
         {
@@ -54,7 +47,7 @@ namespace FundooApplication.Controllers
                     return this.Ok(new
                     {
                         success = true,
-                        message = "Login Succesfull",
+                        message = "Login Successfull",
                         tokan = result
                     });
                 }
@@ -84,7 +77,6 @@ namespace FundooApplication.Controllers
                     {
                         success = true,
                         message = "Email Send Successfully",
-                        tokan = result
                     });
                 }
                 else
@@ -102,11 +94,12 @@ namespace FundooApplication.Controllers
             }
         }
         [HttpPost("ResetPassword")]
-        public IActionResult ResetPassword(string emailId,string newPassword,string confirmPassword)
+        public IActionResult ResetPassword(string newPassword,string confirmPassword)
         { 
             try
             {
-                var user = userBL.ResetPassword(emailId, newPassword,confirmPassword);
+                var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
+                var user = userBL.ResetPassword(email,newPassword,confirmPassword);
                 if (user != null)
                 {
                     return this.Ok(new
