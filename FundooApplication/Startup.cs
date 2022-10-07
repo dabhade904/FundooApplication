@@ -32,8 +32,8 @@ namespace FundooApplication
             services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooApplicationDatabase"])); 
             services.AddTransient<IUserInterfaceRL, UserRL>();
             services.AddTransient<IUserInterfaceBL, UserBL>();
-            services.AddScoped<NoteInterfaceRL, NoteRL>();
-            services.AddScoped<NoteInterfaceBL, NoteBL>();
+            services.AddTransient<NoteInterfaceRL, NoteRL>();
+            services.AddTransient<NoteInterfaceBL, NoteBL>();
             services.AddSwaggerGen(c =>
             {
                 var jwtSecurityScheme = new OpenApiSecurityScheme

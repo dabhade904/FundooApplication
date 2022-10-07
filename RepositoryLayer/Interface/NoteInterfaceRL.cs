@@ -9,5 +9,6 @@ namespace RepositoryLayer.Interface
     public interface NoteInterfaceRL
     {
         public NoteEntity AddNotes(long userId,Note notes);
+        public bool DeleteNotes(long noteId, long userId);
     }
 }
