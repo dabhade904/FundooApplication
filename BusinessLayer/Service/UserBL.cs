@@ -39,14 +39,12 @@ namespace BusinessLayer.Service
             try
             {
                 return userInterfaceRL.ForgetPassword(emailId);
-
             }
             catch (Exception)
             {
                 throw;
             }
         }
-
         public bool ResetPassword(string emailId, string newPassword, string confirmPassword)
         {
             try
@@ -58,6 +56,5 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-
     }
 }

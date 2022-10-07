@@ -12,6 +12,7 @@ namespace RepositoryLayer.Context
     : base(options)
         {
         }
-        public DbSet<UserEntity> FundooDbTable { get; set; }
+        public DbSet<UserEntity> UserTable { get; set; }
+        public DbSet<NoteEntity> NoteTable { get; set; }
     }
 }

@@ -28,10 +28,12 @@ namespace FundooApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
             services.AddControllers();
+            services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooApplicationDatabase"])); 
             services.AddTransient<IUserInterfaceRL, UserRL>();
             services.AddTransient<IUserInterfaceBL, UserBL>();
+            services.AddTransient<NoteInterfaceRL, NoteRL>();
+            services.AddTransient<NoteInterfaceBL, NoteBL>();
             services.AddSwaggerGen(c =>
             {
                 var jwtSecurityScheme = new OpenApiSecurityScheme
@@ -77,11 +79,10 @@ namespace FundooApplication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSwagger();
+            app.UseSwagger();        
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Showing Api V1");
-               // c.RoutePrefix = "swagger";
             });
             if (env.IsDevelopment())
             {
