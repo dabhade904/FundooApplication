@@ -73,7 +73,7 @@ namespace RepositoryLayer.Service
         {
             try
             {
-                var loginData = fundooContext.FundooDbTable.SingleOrDefault(x => 
+                var loginData = fundooContext.UserTable.SingleOrDefault(x => 
                                                         x.EmailId == userLogin.EmailId && 
                                                         x.Password == userLogin.Password);
                 if (loginData != null)
@@ -94,7 +94,7 @@ namespace RepositoryLayer.Service
         {
             try
             {
-                var emailCheck = fundooContext.FundooDbTable.FirstOrDefault(e => e.EmailId == emailId);
+                var emailCheck = fundooContext.UserTable.FirstOrDefault(e => e.EmailId == emailId);
                 if(emailCheck != null)
                 {
                     var takan = JwtMethod(emailCheck.EmailId, emailCheck.UserId);
@@ -119,7 +119,7 @@ namespace RepositoryLayer.Service
             {
                 if (newPassword.Equals(confirmPassword))
                 {
-                    var passwordResult = fundooContext.FundooDbTable.FirstOrDefault(e => e.EmailId == emailId);
+                    var passwordResult = fundooContext.UserTable.FirstOrDefault(e => e.EmailId == emailId);
                     passwordResult.Password=newPassword;
                     fundooContext.SaveChanges(); 
                     return true;
