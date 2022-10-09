@@ -26,7 +26,6 @@ namespace BusinessLayer.Service
                 throw e;
             }
         }
-
         public bool DeleteNotes(long noteId, long userId)
         {
             try
@@ -34,6 +33,17 @@ namespace BusinessLayer.Service
                 return noteInterfaceRL.DeleteNotes(noteId, userId);
             }
             catch (Exception)
+            {
+                throw;
+            }
+        }
+        public List<NoteEntity> GetNotes(long userId)
+        {
+            try
+            {
+                return noteInterfaceRL.GetNotes(userId);
+            }
+            catch(Exception)
             {
                 throw;
             }

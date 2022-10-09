@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace RepositoryLayer.Service
 {
@@ -61,7 +62,7 @@ namespace RepositoryLayer.Service
             try
             {
                 var result = fundooContext.NoteTable.FirstOrDefault(e => e.noteID == noteId && e.UserId == userId);
-                if(result!= null)
+                if (result != null)
                 {
                     fundooContext.NoteTable.Remove(result);
                     fundooContext.SaveChanges();
@@ -71,6 +72,18 @@ namespace RepositoryLayer.Service
                 {
                     return false;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public List<NoteEntity> GetNotes(long userId)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(e=>e.UserId == userId).ToList();
+                return result;
             }
             catch (Exception)
             {
