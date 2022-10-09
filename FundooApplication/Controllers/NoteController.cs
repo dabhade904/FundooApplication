@@ -83,5 +83,26 @@ namespace FundooApplication.Controllers
                 throw;
             }
         }
+        [HttpPut("UpdateNote")]
+        public IActionResult UpdateNotes(long noteId, Note note)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = noteInterfaceBL.UpdateNotes( noteId, userId, note);
+                if(result != null)
+                {
+                    return this.Ok(new { success = true, message = "Note Update Succesfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "something went wrong" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

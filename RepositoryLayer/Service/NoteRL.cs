@@ -90,5 +90,34 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        public bool UpdateNotes(long noteId, long userId, Note note)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.FirstOrDefault(e => e.noteID == noteId && e.UserId == userId);
+                if(result != null)
+                {
+                    if (note.title != null)
+                    {
+                        result.title = note.title;
+                    }
+                    if (note.discription != null)
+                    {
+                        result.discription = note.discription;
+                    }
+                    result.time_edited= DateTime.Now;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
