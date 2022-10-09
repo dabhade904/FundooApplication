@@ -61,5 +61,27 @@ namespace FundooApplication.Controllers
                 throw;
             }
         }
+
+        [HttpGet("GetNotes")]
+        public IActionResult GetNotes()
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = noteInterfaceBL.GetNotes(userId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Retrive all notes", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "something went wrong" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
