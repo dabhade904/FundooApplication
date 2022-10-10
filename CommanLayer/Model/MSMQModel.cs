@@ -24,7 +24,6 @@ namespace CommanLayer.Model
             messageQueue.BeginReceive();
             messageQueue.Close();
         }
-
         private void MessageQueue_ReceiveCompleted(object sender, ReceiveCompletedEventArgs e)
         {
             try

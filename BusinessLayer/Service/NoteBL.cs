@@ -3,12 +3,8 @@ using CommanLayer.Model;
 using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
-using RepositoryLayer.Service;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-
 namespace BusinessLayer.Service
 {
     public class NoteBL: NoteInterfaceBL
