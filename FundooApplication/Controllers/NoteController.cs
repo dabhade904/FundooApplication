@@ -129,7 +129,7 @@ namespace FundooApplication.Controllers
         {
             try
             {
-                var result = noteInterfaceBL.Trash(noteId);
+                var result = noteInterfaceBL.TrashNotes(noteId);
                 if (result != null)
                 {
                     return this.Ok(new { success = true, message = "Note Trash Succesfully", data = result });
@@ -142,6 +142,28 @@ namespace FundooApplication.Controllers
             catch (Exception)
             {
                 throw;
+            }
+        }
+        [HttpPut("ArchiveNote")]
+        public IActionResult ArchiveNotes(long noteId)
+        {
+            var result = noteInterfaceBL.ArchiveNotes(noteId);
+            if (!result.Equals(null))
+            {
+                return this.Ok(new
+                {
+                    success = true,
+                    message = "Archive Note succesafully",
+                    data = result
+                });
+            }
+            else
+            {
+                return this.BadRequest(new
+                {
+                    success = false,
+                    message = "something went wrong"
+                });
             }
         }
     }
