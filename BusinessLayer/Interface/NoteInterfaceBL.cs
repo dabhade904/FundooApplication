@@ -12,6 +12,8 @@ namespace BusinessLayer.Interface
         public bool DeleteNotes(long noteId, long userId);
         public List<NoteEntity> GetNotes(long userId);
         public bool UpdateNotes(long noteId, long userId, Note note);
+        public bool PinNotes(long noteId);
+
 
     }
 }

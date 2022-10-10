@@ -2,6 +2,7 @@
 using CommanLayer.Model;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
+using RepositoryLayer.Service;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -59,6 +60,18 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public bool PinNotes(long noteId)
+        {
+            try
+            {
+                return noteInterfaceRL.PinNotes(noteId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
     }
 }
