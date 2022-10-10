@@ -166,5 +166,34 @@ namespace FundooApplication.Controllers
                 });
             }
         }
+        [HttpPost("ColorNotes")]
+        public IActionResult ColorNotes(long noteId,string color)
+        {
+            try
+            {
+                var result = noteInterfaceBL.ColorNotes(noteId,color);
+                if (!result.Equals(null))
+                {
+                    return this.Ok(new
+                    {
+                        success = true,
+                        message = "Color Aplay for Notes successfully",
+                        data = result
+                    });
+                }
+                else
+                {
+                    return this.BadRequest(new
+                    {
+                        success = false,
+                        message = "something went wrong"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

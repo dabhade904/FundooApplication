@@ -15,7 +15,7 @@ namespace RepositoryLayer.Interface
         public bool PinNotes(long noteId);
         public bool TrashNotes(long noteId);
         public bool ArchiveNotes(long noteId);
-
+        public bool ColorNotes(long noteId,string color);
 
     }
 }
