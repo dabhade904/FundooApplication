@@ -124,5 +124,25 @@ namespace FundooApplication.Controllers
                 throw;
             }
         }
+        [HttpPut("TrashNote")]
+        public IActionResult TrashNotes(long noteId)
+        {
+            try
+            {
+                var result = noteInterfaceBL.Trash(noteId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Note Trash Succesfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "something went wrong" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
