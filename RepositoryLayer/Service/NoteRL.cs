@@ -142,7 +142,7 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-        public bool Trash(long noteId)
+        public bool TrashNotes(long noteId)
         {
             try
             {
@@ -156,6 +156,29 @@ namespace RepositoryLayer.Service
                 else
                 {
                     result.trash = true;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public bool ArchiveNotes(long noteId)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(e => e.noteID == noteId).FirstOrDefault();
+                if (result.archive == true)
+                {
+                    result.archive=false;
+                    fundooContext.SaveChanges();
+                    return false;
+                }
+                else
+                {
+                    result.archive = true;
                     fundooContext.SaveChanges();
                     return true;
                 }

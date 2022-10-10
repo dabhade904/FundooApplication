@@ -13,7 +13,8 @@ namespace RepositoryLayer.Interface
         public List<NoteEntity> GetNotes(long userId);
         public bool UpdateNotes(long noteId, long userId, Note note);
         public bool PinNotes(long noteId);
-        public bool Trash(long noteId);
+        public bool TrashNotes(long noteId);
+        public bool ArchiveNotes(long noteId);
 
 
     }
