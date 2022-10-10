@@ -5,6 +5,7 @@ using RepositoryLayer.Interface;
 using RepositoryLayer.Service;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace BusinessLayer.Service
@@ -87,6 +88,17 @@ namespace BusinessLayer.Service
             try
             {
                 return noteInterfaceRL.ArchiveNotes(noteId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public bool ColorNotes(long noteId,string color)
+        {
+            try
+            {
+                return noteInterfaceRL.ColorNotes(noteId,color);
             }
             catch (Exception)
             {
