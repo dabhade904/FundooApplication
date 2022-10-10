@@ -104,5 +104,25 @@ namespace FundooApplication.Controllers
                 throw;
             }
         }
+        [HttpPut("PinNote")]
+        public IActionResult PinNotes(long noteId)
+        {
+            try
+            { 
+                var result = noteInterfaceBL.PinNotes(noteId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Pin Note Succesfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "something went wrong" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
