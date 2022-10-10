@@ -10,6 +10,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using CloudinaryDotNet.Actions;
+using CloudinaryDotNet;
 
 namespace RepositoryLayer.Service
 {
@@ -17,11 +19,12 @@ namespace RepositoryLayer.Service
     {
         private readonly FundooContext fundooContext;
         private readonly IConfiguration config;
-
-        public NoteRL(FundooContext fundooContext, IConfiguration config)
+   
+        public NoteRL(FundooContext fundooContext, IConfiguration config )
         {
             this.fundooContext = fundooContext;
             this.config = config;
+          
         }
 
         public NoteEntity AddNotes(long userId, Note model)
@@ -203,6 +206,35 @@ namespace RepositoryLayer.Service
                 else
                 {
                     return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public string UploadImage(long noteId,long userId, IFormFile file)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(e => e.noteID == noteId && e.UserId ==userId).FirstOrDefault();
+                if (!result.Equals(null))
+                {
+                    Account account = new Account(this.config["ClouldinarySettings:CloudName"], this.config["ClouldinarySettings:ApiKey"], this.config["ClouldinarySettings:SecreateKey"]);
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(file.FileName, file.OpenReadStream()),
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParams);
+                    string imagePath = uploadResult.Url.ToString();
+                    result.img = imagePath;
+                    fundooContext.SaveChanges();
+                    return "Image Saved successfully";
+                }
+                else
+                {
+                    return null;
                 }
             }
             catch (Exception)

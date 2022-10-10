@@ -1,11 +1,16 @@
 ﻿using BusinessLayer.Interface;
 using CommanLayer.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryLayer.Context;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+
 
 namespace FundooApplication.Controllers
 {
@@ -15,17 +20,22 @@ namespace FundooApplication.Controllers
     public class NoteController : ControllerBase
     {
         private readonly NoteInterfaceBL noteInterfaceBL;
-        public NoteController(NoteInterfaceBL noteInterfaceBL)
+        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly FundooContext fundooContext;
+
+        public NoteController(NoteInterfaceBL noteInterfaceBL, IHostingEnvironment hostingEnvironment, FundooContext fundooContext)
         {
             this.noteInterfaceBL = noteInterfaceBL;
+            this.hostingEnvironment = hostingEnvironment;
+            this.fundooContext = fundooContext;
         }
         [HttpPost("Notes")]
         public IActionResult AddNotes(Note note)
         {
             try
             {
-                long userId=Convert.ToInt32(User.Claims.FirstOrDefault(e=>e.Type=="userId").Value);
-                var result = noteInterfaceBL.AddNotes(userId,note);
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = noteInterfaceBL.AddNotes(userId, note);
                 if (result != null)
                 {
                     return this.Ok(new { success = true, message = "Note Added Successfull", data = result });
@@ -41,12 +51,12 @@ namespace FundooApplication.Controllers
             }
         }
         [HttpDelete("DeleteNotes")]
-        public IActionResult DeleteNotes(long noteId) 
+        public IActionResult DeleteNotes(long noteId)
         {
             try
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
-                var result = noteInterfaceBL.DeleteNotes(userId,noteId);
+                var result = noteInterfaceBL.DeleteNotes(userId, noteId);
                 if (result == true)
                 {
                     return this.Ok(new { success = true, message = "Note Deleted", data = result });
@@ -89,8 +99,8 @@ namespace FundooApplication.Controllers
             try
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
-                var result = noteInterfaceBL.UpdateNotes( noteId, userId, note);
-                if(result != null)
+                var result = noteInterfaceBL.UpdateNotes(noteId, userId, note);
+                if (result != null)
                 {
                     return this.Ok(new { success = true, message = "Note Update Succesfully", data = result });
                 }
@@ -108,7 +118,7 @@ namespace FundooApplication.Controllers
         public IActionResult PinNotes(long noteId)
         {
             try
-            { 
+            {
                 var result = noteInterfaceBL.PinNotes(noteId);
                 if (result != null)
                 {
@@ -167,17 +177,47 @@ namespace FundooApplication.Controllers
             }
         }
         [HttpPost("ColorNotes")]
-        public IActionResult ColorNotes(long noteId,string color)
+        public IActionResult ColorNotes(long noteId, string color)
         {
             try
             {
-                var result = noteInterfaceBL.ColorNotes(noteId,color);
+                var result = noteInterfaceBL.ColorNotes(noteId, color);
                 if (!result.Equals(null))
                 {
                     return this.Ok(new
                     {
                         success = true,
                         message = "Color Aplay for Notes successfully",
+                        data = result
+                    });
+                }
+                else
+                {
+                    return this.BadRequest(new
+                    {
+                        success = false,
+                        message = "something went wrong"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        [HttpPost("UploadImage")]
+        public IActionResult UploadImage(long noteId, IFormFile file)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = noteInterfaceBL.UploadImage(noteId, userId, file);
+                if (!result.Equals(null))
+                {
+                    return this.Ok(new
+                    {
+                        success = true,
+                        message = "Image Upload successfully",
                         data = result
                     });
                 }
