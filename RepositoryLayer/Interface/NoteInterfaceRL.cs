@@ -18,6 +18,5 @@ namespace RepositoryLayer.Interface
         public bool ArchiveNotes(long noteId);
         public bool ColorNotes(long noteId,string color);
         public string UploadImage(long noteId,long userId,IFormFile file);
-
     }
 }

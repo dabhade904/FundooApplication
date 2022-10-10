@@ -3,30 +3,23 @@ using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-
 using System;
-using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using CloudinaryDotNet.Actions;
 using CloudinaryDotNet;
-
 namespace RepositoryLayer.Service
 {
     public class NoteRL : NoteInterfaceRL
     {
         private readonly FundooContext fundooContext;
         private readonly IConfiguration config;
-   
         public NoteRL(FundooContext fundooContext, IConfiguration config )
         {
             this.fundooContext = fundooContext;
             this.config = config;
-          
         }
-
         public NoteEntity AddNotes(long userId, Note model)
         {
             try
@@ -191,7 +184,6 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-
         public bool ColorNotes(long noteId,string color)
         {
             try
@@ -242,6 +234,5 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-
     }
 }

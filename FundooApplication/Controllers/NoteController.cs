@@ -1,17 +1,10 @@
 ﻿using BusinessLayer.Interface;
 using CommanLayer.Model;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RepositoryLayer.Context;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-
-
 namespace FundooApplication.Controllers
 {
     [Authorize]
@@ -20,14 +13,10 @@ namespace FundooApplication.Controllers
     public class NoteController : ControllerBase
     {
         private readonly NoteInterfaceBL noteInterfaceBL;
-        private readonly IHostingEnvironment hostingEnvironment;
-        private readonly FundooContext fundooContext;
-
-        public NoteController(NoteInterfaceBL noteInterfaceBL, IHostingEnvironment hostingEnvironment, FundooContext fundooContext)
+      
+        public NoteController(NoteInterfaceBL noteInterfaceBL)
         {
             this.noteInterfaceBL = noteInterfaceBL;
-            this.hostingEnvironment = hostingEnvironment;
-            this.fundooContext = fundooContext;
         }
         [HttpPost("Notes")]
         public IActionResult AddNotes(Note note)
@@ -38,11 +27,20 @@ namespace FundooApplication.Controllers
                 var result = noteInterfaceBL.AddNotes(userId, note);
                 if (result != null)
                 {
-                    return this.Ok(new { success = true, message = "Note Added Successfull", data = result });
+                    return this.Ok(new 
+                    { 
+                        success = true, 
+                        message = "Note Added Successfull",
+                        data = result 
+                    });
                 }
                 else
                 {
-                    return this.BadRequest(new { success = false, message = "something went wrong" });
+                    return this.BadRequest(new 
+                    {
+                        success = false,
+                        message = "something went wrong"
+                    });
                 }
             }
             catch (Exception)
@@ -59,11 +57,20 @@ namespace FundooApplication.Controllers
                 var result = noteInterfaceBL.DeleteNotes(userId, noteId);
                 if (result == true)
                 {
-                    return this.Ok(new { success = true, message = "Note Deleted", data = result });
+                    return this.Ok(new 
+                    {
+                        success = true, 
+                        message = "Note Deleted",
+                        data = result 
+                    });
                 }
                 else
                 {
-                    return this.BadRequest(new { success = false, message = "something went wrong" });
+                    return this.BadRequest(new
+                    {
+                        success = false,
+                        message = "something went wrong"
+                    });
                 }
             }
             catch (Exception)
@@ -81,11 +88,19 @@ namespace FundooApplication.Controllers
                 var result = noteInterfaceBL.GetNotes(userId);
                 if (result != null)
                 {
-                    return this.Ok(new { success = true, message = "Retrive all notes", data = result });
+                    return this.Ok(new { 
+                        success = true,
+                        message = "Retrive all notes",
+                        data = result 
+                    });
                 }
                 else
                 {
-                    return this.BadRequest(new { success = false, message = "something went wrong" });
+                    return this.BadRequest(new 
+                    {
+                        success = false,
+                        message = "something went wrong" 
+                    });
                 }
             }
             catch (Exception)
@@ -102,11 +117,20 @@ namespace FundooApplication.Controllers
                 var result = noteInterfaceBL.UpdateNotes(noteId, userId, note);
                 if (result != null)
                 {
-                    return this.Ok(new { success = true, message = "Note Update Succesfully", data = result });
+                    return this.Ok(new 
+                    {
+                        success = true, 
+                        message = "Note Update Succesfully",
+                        data = result
+                    });
                 }
                 else
                 {
-                    return this.BadRequest(new { success = false, message = "something went wrong" });
+                    return this.BadRequest(new 
+                    { 
+                        success = false,
+                        message = "something went wrong"
+                    });
                 }
             }
             catch (Exception)
@@ -122,11 +146,18 @@ namespace FundooApplication.Controllers
                 var result = noteInterfaceBL.PinNotes(noteId);
                 if (result != null)
                 {
-                    return this.Ok(new { success = true, message = "Pin Note Succesfully", data = result });
+                    return this.Ok(new {
+                        success = true, 
+                        message = "Pin Note Succesfully",
+                        data = result 
+                    });
                 }
                 else
                 {
-                    return this.BadRequest(new { success = false, message = "something went wrong" });
+                    return this.BadRequest(new {
+                        success = false, 
+                        message = "something went wrong"
+                    });
                 }
             }
             catch (Exception)
@@ -142,11 +173,20 @@ namespace FundooApplication.Controllers
                 var result = noteInterfaceBL.TrashNotes(noteId);
                 if (result != null)
                 {
-                    return this.Ok(new { success = true, message = "Note Trash Succesfully", data = result });
+                    return this.Ok(new
+                    {
+                        success = true,
+                        message = "Note Trash Succesfully",
+                        data = result 
+                    });
                 }
                 else
                 {
-                    return this.BadRequest(new { success = false, message = "something went wrong" });
+                    return this.BadRequest(new
+                    {
+                        success = false,
+                        message = "something went wrong" 
+                    });
                 }
             }
             catch (Exception)
