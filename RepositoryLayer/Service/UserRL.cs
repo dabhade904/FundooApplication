@@ -76,7 +76,7 @@ namespace RepositoryLayer.Service
                 var loginData = fundooContext.UserTable.SingleOrDefault(x => 
                                                         x.EmailId == userLogin.EmailId && 
                                                         x.Password == userLogin.Password);
-                if (loginData != null)
+                if (!loginData.Equals(null))
                 {
                     var token = JwtMethod(loginData.EmailId, loginData.UserId);
                     return token;
@@ -94,7 +94,7 @@ namespace RepositoryLayer.Service
             try
             {
                 var emailCheck = fundooContext.UserTable.FirstOrDefault(e => e.EmailId == emailId);
-                if(emailCheck != null)
+                if (!emailCheck.Equals(null))
                 {
                     var takan = JwtMethod(emailCheck.EmailId, emailCheck.UserId);
                     var msmqObjModel = new MSMQModel();

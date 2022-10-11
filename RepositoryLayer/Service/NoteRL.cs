@@ -58,7 +58,7 @@ namespace RepositoryLayer.Service
             try
             {
                 var result = fundooContext.NoteTable.FirstOrDefault(e => e.noteID == noteId && e.UserId == userId);
-                if (result != null)
+                if (!result.Equals(null))
                 {
                     fundooContext.NoteTable.Remove(result);
                     fundooContext.SaveChanges();
@@ -91,13 +91,13 @@ namespace RepositoryLayer.Service
             try
             {
                 var result = fundooContext.NoteTable.FirstOrDefault(e => e.noteID == noteId && e.UserId == userId);
-                if(result != null)
+                if (!result.Equals(null))
                 {
-                    if (note.title != null)
-                    {
+                    if (!note.title.Equals(null))
+                        {
                         result.title = note.title;
                     }
-                    if (note.discription != null)
+                    if (!note.discription.Equals(null))
                     {
                         result.discription = note.discription;
                     }
@@ -120,7 +120,7 @@ namespace RepositoryLayer.Service
             try
             {
                 var result = fundooContext.NoteTable.Where(e => e.noteID == noteId).FirstOrDefault();
-                if (result.pin==true)
+                if (!result.pin.Equals(true))
                 {
                     result.pin = false;
                     fundooContext.SaveChanges();
@@ -143,7 +143,7 @@ namespace RepositoryLayer.Service
             try
             {
                 var result=fundooContext.NoteTable.Where(e=>e.noteID==noteId).FirstOrDefault();
-                if (result.trash == true)
+                if (!result.trash.Equals(true))
                 {
                     result.trash = false;
                     fundooContext.SaveChanges();
@@ -166,7 +166,7 @@ namespace RepositoryLayer.Service
             try
             {
                 var result = fundooContext.NoteTable.Where(e => e.noteID == noteId).FirstOrDefault();
-                if (result.archive == true)
+                if (!result.archive.Equals(true))
                 {
                     result.archive=false;
                     fundooContext.SaveChanges();
@@ -189,7 +189,7 @@ namespace RepositoryLayer.Service
             try
             {
                 var result = fundooContext.NoteTable.Where(e => e.noteID == noteId).FirstOrDefault();
-                if (result != null)
+                if (!result.Equals(null))
                 {
                     result.color=color;
                     fundooContext.SaveChanges();
