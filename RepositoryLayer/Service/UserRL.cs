@@ -14,7 +14,6 @@ namespace RepositoryLayer.Service
 {
     public class UserRL : IUserInterfaceRL
     {
-      //  private readonly AppSettings appSettings;
         private readonly FundooContext fundooContext;
         private readonly IConfiguration config;
         public UserRL(FundooContext fundooContext, IConfiguration config)
