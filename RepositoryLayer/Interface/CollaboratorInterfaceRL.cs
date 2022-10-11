@@ -10,5 +10,7 @@ namespace RepositoryLayer.Interface
     public interface CollaboratorInterfaceRL
     {
         public CollabEntity CreateCollaborator(long userId, long noteId, string emailId);
+        public bool RemoveCollaborator(long collabId);
+
     }
 }
