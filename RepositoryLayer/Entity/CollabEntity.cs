@@ -11,7 +11,11 @@ namespace RepositoryLayer.Entity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long collabId { get; set; }
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address.")]
         public string collabEmail { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime modifyDate { get; set; }
         [ForeignKey("UserTable")]
         public long UserId { get; set; }
