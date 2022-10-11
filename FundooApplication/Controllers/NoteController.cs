@@ -25,7 +25,7 @@ namespace FundooApplication.Controllers
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
                 var result = noteInterfaceBL.AddNotes(userId, note);
-                if (result != null)
+                if (!result.Equals(null))
                 {
                     return this.Ok(new 
                     { 
@@ -55,7 +55,7 @@ namespace FundooApplication.Controllers
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
                 var result = noteInterfaceBL.DeleteNotes(userId, noteId);
-                if (result == true)
+                if (!result.Equals(null))
                 {
                     return this.Ok(new 
                     {
@@ -86,7 +86,7 @@ namespace FundooApplication.Controllers
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
                 var result = noteInterfaceBL.GetNotes(userId);
-                if (result != null)
+                if (!result.Equals(null))
                 {
                     return this.Ok(new { 
                         success = true,
@@ -115,7 +115,7 @@ namespace FundooApplication.Controllers
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
                 var result = noteInterfaceBL.UpdateNotes(noteId, userId, note);
-                if (result != null)
+                if (!result.Equals(null))
                 {
                     return this.Ok(new 
                     {
@@ -144,7 +144,7 @@ namespace FundooApplication.Controllers
             try
             {
                 var result = noteInterfaceBL.PinNotes(noteId);
-                if (result != null)
+                if (!result.Equals(null))
                 {
                     return this.Ok(new {
                         success = true, 
@@ -171,7 +171,7 @@ namespace FundooApplication.Controllers
             try
             {
                 var result = noteInterfaceBL.TrashNotes(noteId);
-                if (result != null)
+                if (!result.Equals(null))
                 {
                     return this.Ok(new
                     {
