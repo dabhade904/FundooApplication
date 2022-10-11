@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryLayer.Interface;
+using RepositoryLayer.Service;
 using System;
 using System.Linq;
 
@@ -46,6 +47,35 @@ namespace FundooApplication.Controllers
                 }
             }
             catch(Exception)
+            {
+                throw;
+            }
+        }
+        [HttpDelete("RemoveCollaborator")]
+        public IActionResult RemoveCollaborator(long collabId)
+        {
+            try
+            {
+                var result = collaboratorInterfaceBL.RemoveCollaborator(collabId);
+                if (!result.Equals(null))
+                {
+                    return this.Ok(new
+                    {
+                        success = true,
+                        message = "Collaborator Remove Successfull",
+                        data = result
+                    });
+                }
+                else
+                {
+                    return this.BadRequest(new
+                    {
+                        success = false,
+                        message = "something went wrong"
+                    });
+                }
+            }
+            catch (Exception)
             {
                 throw;
             }
