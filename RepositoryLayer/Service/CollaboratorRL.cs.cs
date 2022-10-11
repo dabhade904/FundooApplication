@@ -65,6 +65,17 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-
+        public List<CollabEntity> RetriveDetails(long noteId)
+        {
+            try
+            {
+                var result = fundooContext.CollaboratorTable.Where(e => e.noteID == noteId).ToList();
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

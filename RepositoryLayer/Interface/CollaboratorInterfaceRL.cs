@@ -11,6 +11,7 @@ namespace RepositoryLayer.Interface
     {
         public CollabEntity CreateCollaborator(long userId, long noteId, string emailId);
         public bool RemoveCollaborator(long collabId);
+        public List<CollabEntity> RetriveDetails(long noteId);
 
     }
 }

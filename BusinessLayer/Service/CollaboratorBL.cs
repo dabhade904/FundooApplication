@@ -37,5 +37,16 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public List<CollabEntity> RetriveDetails(long noteId)
+        {
+            try
+            {
+                return collaboratorRL.RetriveDetails(noteId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
