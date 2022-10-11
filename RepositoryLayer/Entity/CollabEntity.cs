@@ -11,12 +11,14 @@ namespace RepositoryLayer.Entity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long collabId { get; set; }
-        [Display(Name = "Email address")]
-        [Required(ErrorMessage = "The email address is required")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
-        public string collabratorEmail { get; set; }
-        [ForeignKey("NoteEntity")]
+        public string collabEmail { get; set; }
+        public DateTime modifyDate { get; set; }
+        [ForeignKey("UserTable")]
+        public long UserId { get; set; }
+
+        [ForeignKey("NoteTable")]
         public long noteID { get; set; }
-        public virtual NoteEntity NoteEntity { get; set; }
+     //   public virtual UserEntity userEntity { get; set; }
+       // public virtual NoteEntity noteEntity { get; set; }
     }
 }

@@ -21,8 +21,8 @@ namespace RepositoryLayer.Entity
         public bool trash { get; set; }
         public DateTime time_created { get; set; }
         public DateTime time_edited { get; set; }
-        [ForeignKey("UserEntity")]
+        [ForeignKey("UserTable")]
         public long UserId { get; set; }
-        public virtual UserEntity UserEntity { get; set; }
+      //  public virtual UserEntity UserEntity { get; set; }
     }
 }
