@@ -29,11 +29,14 @@ namespace FundooApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooApplicationDatabase"])); 
+            services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooAppDB"])); 
             services.AddTransient<IUserInterfaceRL, UserRL>();
             services.AddTransient<IUserInterfaceBL, UserBL>();
             services.AddTransient<NoteInterfaceRL, NoteRL>();
             services.AddTransient<NoteInterfaceBL, NoteBL>();
+            services.AddTransient<CollaboratorInterfaceBL, CollaboratorBL>();
+            services.AddTransient<CollaboratorInterfaceRL, CollaboratorRL>();
+
             services.AddSwaggerGen(c =>
             {
                 var jwtSecurityScheme = new OpenApiSecurityScheme

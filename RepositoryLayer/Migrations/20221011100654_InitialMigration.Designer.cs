@@ -10,8 +10,8 @@ using RepositoryLayer.Context;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(FundooContext))]
-    [Migration("20221011060435_collabratorMigration")]
-    partial class collabratorMigration
+    [Migration("20221011100654_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,18 +28,21 @@ namespace RepositoryLayer.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("collabratorEmail")
-                        .IsRequired()
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("collabEmail")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("modifyDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<long>("noteID")
                         .HasColumnType("bigint");
 
                     b.HasKey("collabId");
 
-                    b.HasIndex("noteID");
-
-                    b.ToTable("CollabratorTable");
+                    b.ToTable("CollaboratorTable");
                 });
 
             modelBuilder.Entity("RepositoryLayer.Entity.NoteEntity", b =>
@@ -84,8 +87,6 @@ namespace RepositoryLayer.Migrations
 
                     b.HasKey("noteID");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("NoteTable");
                 });
 
@@ -111,24 +112,6 @@ namespace RepositoryLayer.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("UserTable");
-                });
-
-            modelBuilder.Entity("RepositoryLayer.Entity.CollabEntity", b =>
-                {
-                    b.HasOne("RepositoryLayer.Entity.NoteEntity", "NoteEntity")
-                        .WithMany()
-                        .HasForeignKey("noteID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("RepositoryLayer.Entity.NoteEntity", b =>
-                {
-                    b.HasOne("RepositoryLayer.Entity.UserEntity", "UserEntity")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
