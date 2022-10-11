@@ -4,9 +4,11 @@ using CommanLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
 using RepositoryLayer.Service;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FundooApplication.Controllers
@@ -57,6 +59,35 @@ namespace FundooApplication.Controllers
             try
             {
                 var result = collaboratorInterfaceBL.RemoveCollaborator(collabId);
+                if (!result.Equals(null))
+                {
+                    return this.Ok(new
+                    {
+                        success = true,
+                        message = "Collaborator Remove Successfull",
+                        data = result
+                    });
+                }
+                else
+                {
+                    return this.BadRequest(new
+                    {
+                        success = false,
+                        message = "something went wrong"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        [HttpGet("GetDetails")]
+        public IActionResult  RetriveDetails(long noteId)
+        {
+            try
+            {
+                var result= collaboratorInterfaceBL.RetriveDetails(noteId);
                 if (!result.Equals(null))
                 {
                     return this.Ok(new
