@@ -37,5 +37,17 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public List<LableEntity> GetAllLable(long noteId, long userId)
+        {
+            try
+            {
+                return lableInterfaceRL.GetAllLable(noteId, userId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
