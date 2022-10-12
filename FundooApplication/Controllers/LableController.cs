@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interface;
+using Experimental.System.Messaging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -48,5 +49,35 @@ namespace FundooApplication.Controllers
                 throw;
             }
         }
-    }
+        [HttpDelete("DeleteLable")]
+        public IActionResult DeleteLable(string lableName)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result =lableInterfaceBL.DeleteLable(userId,lableName);
+                if (!result.Equals(null))
+                {
+                    return Ok(new
+                    {
+                        success=true,
+                        message="Note Deleted",
+                        data=result
+                    });
+                }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        success=false,
+                        message="Something went wrong"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+      }
 }
