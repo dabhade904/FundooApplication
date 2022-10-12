@@ -64,7 +64,7 @@ namespace FundooApplication.Controllers
                     return this.Ok(new
                     {
                         success = true,
-                        message = "Collaborator Remove Successfull",
+                        message = "Collaborator Removed",
                         data = result
                     });
                 }
@@ -88,12 +88,12 @@ namespace FundooApplication.Controllers
             try
             {
                 var result= collaboratorInterfaceBL.RetriveDetails(noteId);
-                if (!result.Equals(null))
+                if (!result.Equals(null)&&!result.Count.Equals(0))
                 {
                     return this.Ok(new
                     {
                         success = true,
-                        message = "Collaborator Remove Successfull",
+                        message = "Collaborator Added ",
                         data = result
                     });
                 }
@@ -102,7 +102,7 @@ namespace FundooApplication.Controllers
                     return this.BadRequest(new
                     {
                         success = false,
-                        message = "something went wrong"
+                        message = "Data Not Found"
                     });
                 }
             }

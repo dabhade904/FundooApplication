@@ -109,6 +109,35 @@ namespace FundooApplication.Controllers
                 throw;
             }
         }
-
+        [HttpPut("EditLable")]
+        public IActionResult EditLable(string oldLableName,string newLableName)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = lableInterfaceBL.EditLable(userId,oldLableName, newLableName);
+                if (!result.Equals(null) && !result.Equals(0))
+                {
+                    return Ok(new
+                    {
+                        success = true,
+                        message = "Lable Edited",
+                        data = result
+                    });
+                }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        success = false,
+                        message = "someting went wrong"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
