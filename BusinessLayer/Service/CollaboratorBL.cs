@@ -37,11 +37,11 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-        public List<CollabEntity> RetriveDetails(long noteId)
+        public List<CollabEntity> RetriveDetails(long lableId)
         {
             try
             {
-                return collaboratorRL.RetriveDetails(noteId);
+                return collaboratorRL.RetriveDetails(lableId);
             }
             catch (Exception)
             {
