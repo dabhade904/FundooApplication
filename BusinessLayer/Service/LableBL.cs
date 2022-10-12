@@ -48,6 +48,17 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public bool EditLable(long userId, string oldLableName, string newLableName)
+        {
+            try
+            {
+                return lableInterfaceRL.EditLable(userId, oldLableName, newLableName);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }

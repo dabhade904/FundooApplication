@@ -76,5 +76,28 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        public bool EditLable(long userId, string oldLableName, string newLableName)
+        {
+            try
+            {
+                var result = fundooContext.LableTable.Where(e => e.UserId == userId && e.lableName == oldLableName).FirstOrDefault();
+              
+                if(!result.Equals(null))
+                {
+                    result.lableName = newLableName;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
