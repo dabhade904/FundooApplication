@@ -10,8 +10,8 @@ using RepositoryLayer.Context;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(FundooContext))]
-    [Migration("20221011100654_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20221012100924_lableMigration")]
+    partial class lableMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,17 +32,59 @@ namespace RepositoryLayer.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("collabEmail")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("modifyDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<long?>("noteEntitynoteID")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("noteID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("userEntityUserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("collabId");
 
+                    b.HasIndex("noteEntitynoteID");
+
+                    b.HasIndex("userEntityUserId");
+
                     b.ToTable("CollaboratorTable");
+                });
+
+            modelBuilder.Entity("RepositoryLayer.Entity.LableEntity", b =>
+                {
+                    b.Property<long>("lableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("lableName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("noteEntitynoteID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("noteID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("userEntityUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("lableId");
+
+                    b.HasIndex("noteEntitynoteID");
+
+                    b.HasIndex("userEntityUserId");
+
+                    b.ToTable("LableTable");
                 });
 
             modelBuilder.Entity("RepositoryLayer.Entity.NoteEntity", b =>
@@ -85,7 +127,12 @@ namespace RepositoryLayer.Migrations
                     b.Property<bool>("trash")
                         .HasColumnType("bit");
 
+                    b.Property<long?>("userEntityUserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("noteID");
+
+                    b.HasIndex("userEntityUserId");
 
                     b.ToTable("NoteTable");
                 });
@@ -112,6 +159,35 @@ namespace RepositoryLayer.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("UserTable");
+                });
+
+            modelBuilder.Entity("RepositoryLayer.Entity.CollabEntity", b =>
+                {
+                    b.HasOne("RepositoryLayer.Entity.NoteEntity", "noteEntity")
+                        .WithMany()
+                        .HasForeignKey("noteEntitynoteID");
+
+                    b.HasOne("RepositoryLayer.Entity.UserEntity", "userEntity")
+                        .WithMany()
+                        .HasForeignKey("userEntityUserId");
+                });
+
+            modelBuilder.Entity("RepositoryLayer.Entity.LableEntity", b =>
+                {
+                    b.HasOne("RepositoryLayer.Entity.NoteEntity", "noteEntity")
+                        .WithMany()
+                        .HasForeignKey("noteEntitynoteID");
+
+                    b.HasOne("RepositoryLayer.Entity.UserEntity", "userEntity")
+                        .WithMany()
+                        .HasForeignKey("userEntityUserId");
+                });
+
+            modelBuilder.Entity("RepositoryLayer.Entity.NoteEntity", b =>
+                {
+                    b.HasOne("RepositoryLayer.Entity.UserEntity", "userEntity")
+                        .WithMany()
+                        .HasForeignKey("userEntityUserId");
                 });
 #pragma warning restore 612, 618
         }

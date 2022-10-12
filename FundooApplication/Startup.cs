@@ -36,7 +36,8 @@ namespace FundooApplication
             services.AddTransient<NoteInterfaceBL, NoteBL>();
             services.AddTransient<CollaboratorInterfaceBL, CollaboratorBL>();
             services.AddTransient<CollaboratorInterfaceRL, CollaboratorRL>();
-
+            services.AddTransient<LableInterfaceBL, LableBL>();
+            services.AddTransient<LableInterfaceRL, LableRL>();
             services.AddSwaggerGen(c =>
             {
                 var jwtSecurityScheme = new OpenApiSecurityScheme
