@@ -1,0 +1,12 @@
+﻿using RepositoryLayer.Entity;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace BusinessLayer.Interface
+{
+    public interface LableInterfaceBL
+    {
+        public LableEntity CreateLable(long userId, long noteId, string lableName);
+    }
+}
