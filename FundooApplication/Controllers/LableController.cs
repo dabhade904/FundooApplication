@@ -61,7 +61,7 @@ namespace FundooApplication.Controllers
                     return Ok(new
                     {
                         success=true,
-                        message="Note Deleted",
+                        message="Lable Deleted",
                         data=result
                     });
                 }
@@ -70,7 +70,7 @@ namespace FundooApplication.Controllers
                     return BadRequest(new
                     {
                         success=false,
-                        message="Something went wrong"
+                        message="Lable Not Found"
                     });
                 }
             }
@@ -79,5 +79,36 @@ namespace FundooApplication.Controllers
                 throw;
             }
         }
-      }
+        [HttpGet("RetriveAllLables")]
+        public IActionResult GetAllLables(long noteId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = lableInterfaceBL.GetAllLable(noteId, userId);
+                if (!result.Equals(null) && !result.Count.Equals(0))
+                {
+                    return Ok(new
+                    {
+                        success = true,
+                        message = "Label Fetched sucessfully",
+                        data = result
+                    });
+                }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        success = false,
+                        message = "Data Not Found"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+    }
 }

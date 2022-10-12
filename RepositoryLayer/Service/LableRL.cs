@@ -64,5 +64,17 @@ namespace RepositoryLayer.Service
                 throw;  
             }
         }
+        public List<LableEntity> GetAllLable(long noteId, long userId)
+        {
+            try
+            {
+                var result = fundooContext.LableTable.Where(e => e.noteID == noteId && e.UserId == userId).ToList();
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

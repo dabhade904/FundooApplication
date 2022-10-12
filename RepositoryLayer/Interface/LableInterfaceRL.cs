@@ -9,5 +9,6 @@ namespace RepositoryLayer.Interface
     {
         public LableEntity CreateLable(long userId,long noteId,string lableName);
         public bool DeleteLable(long userId,string lableName);
+        public List<LableEntity> GetAllLable(long noteId, long userId);
     }
 }
