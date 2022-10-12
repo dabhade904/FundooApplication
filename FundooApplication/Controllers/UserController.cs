@@ -100,7 +100,7 @@ namespace FundooApplication.Controllers
             {
                 var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
                 var user = userBL.ResetPassword(email,newPassword,confirmPassword);
-                if (!user.Equals(null))
+                if (!user.Equals(null)&& !user.Equals(false))
                 {
                     return this.Ok(new
                     {
@@ -113,7 +113,7 @@ namespace FundooApplication.Controllers
                     return this.BadRequest(new
                     {
                         Success = false,
-                        message = "Invalid Email ",
+                        message = "Invalid Password ",
                     });
                 }               
             }
