@@ -187,7 +187,7 @@ namespace FundooApplication.Controllers
                 throw;
             }
         }
-        [HttpGet("redis")]
+        [HttpGet("GetData")]
         public async Task<IActionResult> GetData()
         {
             var cacheKey = "LabelList";
