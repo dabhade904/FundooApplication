@@ -3,7 +3,10 @@ using CommanLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using RepositoryLayer.Entity;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 namespace FundooApplication.Controllers
 {
@@ -13,7 +16,6 @@ namespace FundooApplication.Controllers
     public class NoteController : ControllerBase
     {
         private readonly NoteInterfaceBL noteInterfaceBL;
-      
         public NoteController(NoteInterfaceBL noteInterfaceBL)
         {
             this.noteInterfaceBL = noteInterfaceBL;
