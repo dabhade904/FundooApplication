@@ -129,7 +129,7 @@ namespace FundooApplication.Controllers
         [HttpGet("GetData")]
         public async Task<IActionResult> GetData()
         {
-            var cacheKey = "LabelList";
+            var cacheKey = "noteList";
             string serializedLabelList;
             var collabList = new List<CollabEntity>();
             var redisCollabList = await distributedCache.GetAsync(cacheKey);
