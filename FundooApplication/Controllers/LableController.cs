@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace FundooApplication.Controllers
 {
@@ -131,6 +132,36 @@ namespace FundooApplication.Controllers
                     {
                         success = false,
                         message = "someting went wrong"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        [HttpDelete("DeleteLabel")]
+        public IActionResult RemoveLable(long labelId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result=lableInterfaceBL.RemoveLable(userId,labelId);
+                if (!result.Equals(null) && !result.Equals(0))
+                {
+                    return Ok(new
+                    {
+                        success = true,
+                        message = "label Removed",
+                        data = result
+                    }) ;
+                }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        success=false,
+                        message="Lable not found"
                     });
                 }
             }
