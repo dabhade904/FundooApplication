@@ -59,6 +59,17 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public bool RemoveLable(long userId, long lableId)
+        {
+            try
+            {
+                return lableInterfaceRL.RemoveLable(userId, lableId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }

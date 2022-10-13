@@ -98,6 +98,26 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-
+        public bool RemoveLable(long userId, long lableId)
+        {
+            try
+            {
+                var result = fundooContext.LableTable.Where(e =>e.UserId==userId && e.lableId == lableId).FirstOrDefault();
+                if (!result.Equals(null))
+                {
+                    fundooContext.Remove(result);
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
