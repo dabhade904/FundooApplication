@@ -58,28 +58,5 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-        public string EncryptPassword(string password)
-        {
-            try
-            {
-                return userInterfaceRL.EncryptPassword(password);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        public string DecryptPassword(string password)
-        {
-            try
-            { 
-                return userInterfaceRL.DecryptPassword(password);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
     }
 }
