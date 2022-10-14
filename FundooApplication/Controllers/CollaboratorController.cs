@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
@@ -29,14 +30,14 @@ namespace FundooApplication.Controllers
         private readonly FundooContext fundooContext;
         private readonly IMemoryCache memoryCache;
         private readonly IDistributedCache distributedCache;
-
-
-        public CollaboratorController(CollaboratorInterfaceBL collaboratorInterfaceBL, FundooContext fundooContext, IMemoryCache memoryCache, IDistributedCache distributedCache)
+        private readonly ILogger<UserController> logger;
+        public CollaboratorController(CollaboratorInterfaceBL collaboratorInterfaceBL, FundooContext fundooContext, IMemoryCache memoryCache, IDistributedCache distributedCache, ILogger<UserController> logger)
         {
             this.collaboratorInterfaceBL = collaboratorInterfaceBL;
             this.fundooContext = fundooContext;
             this.memoryCache = memoryCache;
             this.distributedCache = distributedCache;
+            this.logger = logger;
         }
         [HttpPost("Collaborator")]
         public IActionResult CreateCollaborator(long noteId, string emailId)
@@ -47,15 +48,17 @@ namespace FundooApplication.Controllers
                 var result = collaboratorInterfaceBL.CreateCollaborator(userId,noteId, emailId);
                 if (!result.Equals(null))
                 {
+                    logger.LogInformation("Collaborator Added Successfully");
                     return this.Ok(new
                     {
                         success = true,
-                        message = "Collaborator Added Successfull",
+                        message = "Collaborator Added Successfully",
                         data = result
                     });
                 }
                 else
                 {
+                    logger.LogInformation("something went wrong");
                     return this.BadRequest(new
                     {
                         success = false,
@@ -63,8 +66,9 @@ namespace FundooApplication.Controllers
                     });
                 }
             }
-            catch(Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.ToString());
                 throw;
             }
         }
@@ -76,6 +80,7 @@ namespace FundooApplication.Controllers
                 var result = collaboratorInterfaceBL.RemoveCollaborator(collabId);
                 if (!result.Equals(null))
                 {
+                    logger.LogInformation("Collaborator Removed");
                     return this.Ok(new
                     {
                         success = true,
@@ -85,6 +90,7 @@ namespace FundooApplication.Controllers
                 }
                 else
                 {
+                    logger.LogInformation("something went wrong");
                     return this.BadRequest(new
                     {
                         success = false,
@@ -92,8 +98,9 @@ namespace FundooApplication.Controllers
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.ToString());
                 throw;
             }
         }
@@ -105,15 +112,17 @@ namespace FundooApplication.Controllers
                 var result= collaboratorInterfaceBL.RetriveDetails(noteId);
                 if (!result.Equals(null)&&!result.Count.Equals(0))
                 {
+                    logger.LogInformation("Data Fetched");
                     return this.Ok(new
                     {
                         success = true,
-                        message = "Collaborator Added ",
+                        message = "Data Fetched ",
                         data = result
                     });
                 }
                 else
                 {
+                    logger.LogInformation("Data Not Found");
                     return this.BadRequest(new
                     {
                         success = false,
@@ -121,8 +130,9 @@ namespace FundooApplication.Controllers
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.ToString());
                 throw;
             }
         }
