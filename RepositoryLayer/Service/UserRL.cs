@@ -131,5 +131,25 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        public string EncryptPassword(string password)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(password))
+                {
+                    byte[] storePassword = ASCIIEncoding.ASCII.GetBytes(password);
+                    string encryptPassword = Convert.ToBase64String(storePassword);
+                    return encryptPassword;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
