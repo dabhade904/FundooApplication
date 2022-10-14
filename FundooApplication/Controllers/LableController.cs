@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
@@ -27,14 +28,14 @@ namespace FundooApplication.Controllers
         private readonly FundooContext fundooContext;
         private readonly IMemoryCache memoryCache;
         private readonly IDistributedCache distributedCache;
-
-
-        public LableController(LableInterfaceBL lableInterfaceBL, FundooContext fundooContext, IMemoryCache memoryCache,IDistributedCache distributedCache)
+        private readonly ILogger<UserController> logger;
+        public LableController(LableInterfaceBL lableInterfaceBL, FundooContext fundooContext, IMemoryCache memoryCache,IDistributedCache distributedCache, ILogger<UserController> logger)
         {
             this.lableInterfaceBL = lableInterfaceBL;
             this.fundooContext = fundooContext;
             this.memoryCache = memoryCache;
             this.distributedCache = distributedCache;
+            this.logger = logger;   
         }
         [HttpPost("CreateLable")]
         public IActionResult CreateLable(long noteId,string lableName)
@@ -45,6 +46,7 @@ namespace FundooApplication.Controllers
                 var result= lableInterfaceBL.CreateLable(userId, noteId, lableName);
                 if (!result.Equals(null))
                 {
+                    logger.LogInformation("Lable Created successfully");
                     return Ok(new
                     {
                         success = true,
@@ -54,16 +56,17 @@ namespace FundooApplication.Controllers
                 }
                 else
                 {
+                    logger.LogInformation("Something went wrong");
                     return BadRequest(new
                     {
                         success = false,
                         message = "Something went wrong"
-
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.ToString());
                 throw;
             }
         }
@@ -76,6 +79,7 @@ namespace FundooApplication.Controllers
                 var result =lableInterfaceBL.DeleteLable(userId,lableName);
                 if (!result.Equals(null))
                 {
+                    logger.LogInformation("Lable Deleted");
                     return Ok(new
                     {
                         success=true,
@@ -85,6 +89,7 @@ namespace FundooApplication.Controllers
                 }
                 else
                 {
+                    logger.LogInformation("Lable Not Found");
                     return BadRequest(new
                     {
                         success=false,
@@ -92,8 +97,9 @@ namespace FundooApplication.Controllers
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.ToString());
                 throw;
             }
         }
@@ -106,6 +112,7 @@ namespace FundooApplication.Controllers
                 var result = lableInterfaceBL.GetAllLable(noteId, userId);
                 if (!result.Equals(null) && !result.Count.Equals(0))
                 {
+                    logger.LogInformation("Label Fetched sucessfully");
                     return Ok(new
                     {
                         success = true,
@@ -115,6 +122,7 @@ namespace FundooApplication.Controllers
                 }
                 else
                 {
+                    logger.LogInformation("Data Not Found");
                     return BadRequest(new
                     {
                         success = false,
@@ -122,8 +130,9 @@ namespace FundooApplication.Controllers
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.ToString());
                 throw;
             }
         }
@@ -136,6 +145,7 @@ namespace FundooApplication.Controllers
                 var result = lableInterfaceBL.EditLable(userId,oldLableName, newLableName);
                 if (!result.Equals(null) && !result.Equals(0))
                 {
+                    logger.LogInformation("Lable Edited");
                     return Ok(new
                     {
                         success = true,
@@ -145,6 +155,7 @@ namespace FundooApplication.Controllers
                 }
                 else
                 {
+                    logger.LogInformation("someting went wrong");
                     return BadRequest(new
                     {
                         success = false,
@@ -152,8 +163,9 @@ namespace FundooApplication.Controllers
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.ToString());
                 throw;
             }
         }
@@ -166,15 +178,17 @@ namespace FundooApplication.Controllers
                 var result=lableInterfaceBL.RemoveLable(userId,labelId);
                 if (!result.Equals(null) && !result.Equals(0))
                 {
+                    logger.LogInformation("Label Removed");
                     return Ok(new
                     {
                         success = true,
-                        message = "label Removed",
+                        message = "Label Removed",
                         data = result
                     }) ;
                 }
                 else
                 {
+                    logger.LogInformation("Lable not found");
                     return BadRequest(new
                     {
                         success=false,
@@ -182,8 +196,9 @@ namespace FundooApplication.Controllers
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.ToString());
                 throw;
             }
         }

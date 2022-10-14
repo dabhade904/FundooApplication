@@ -1,7 +1,9 @@
 ﻿using BusinessLayer.Interface;
 using CommanLayer.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Security.Claims;
 
@@ -12,9 +14,11 @@ namespace FundooApplication.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserInterfaceBL userBL;
-        public UserController(IUserInterfaceBL userBL)
+        private readonly ILogger<UserController> logger;
+        public UserController(IUserInterfaceBL userBL, ILogger<UserController> logger)
         {
             this.userBL = userBL;
+            this.logger = logger;
         }
         [HttpPost("Register")]
         public IActionResult Registration(Registration registration)
@@ -24,15 +28,18 @@ namespace FundooApplication.Controllers
                 var result = userBL.UserRegistration(registration);
                 if (!result.Equals(null))
                 {
+                    logger.LogInformation("User Registration Succesfull");
                     return this.Ok(new { success = true, message = "User Registration Successfull", data = result });
                 }
                 else
                 {
+                    logger.LogInformation("User Registration UnSuccesfull");
                     return this.BadRequest(new { success = false, message = "User Registration UnSuccessfull" });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.ToString());
                 throw;
             }
         }
@@ -44,6 +51,7 @@ namespace FundooApplication.Controllers
                 var result = userBL.Login(model);
                 if (!result.Equals(null))
                 {
+                    logger.LogInformation("User Login Succesfull");
                     return this.Ok(new
                     {
                         success = true,
@@ -53,6 +61,7 @@ namespace FundooApplication.Controllers
                 }
                 else
                 {
+                    logger.LogInformation("User Login UnSuccesfull");
                     return this.Unauthorized(new
                     {
                         Success = false,
@@ -60,9 +69,10 @@ namespace FundooApplication.Controllers
                     });
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                logger.LogError(ex.ToString());
+                throw;
             }
         }
         [HttpPost("ForgetPassword")]
@@ -73,6 +83,7 @@ namespace FundooApplication.Controllers
                 var result = userBL.ForgetPassword(emailId);
                 if (!result.Equals(null))
                 {
+                    logger.LogInformation("Email Send Successfully");
                     return this.Ok(new
                     {
                         success = true,
@@ -81,6 +92,7 @@ namespace FundooApplication.Controllers
                 }
                 else
                 {
+                    logger.LogInformation("EMail has not send");
                     return this.BadRequest(new
                     {
                         Success = false,
@@ -88,8 +100,9 @@ namespace FundooApplication.Controllers
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.ToString());
                 throw;
             }
         }
@@ -102,6 +115,7 @@ namespace FundooApplication.Controllers
                 var user = userBL.ResetPassword(email,newPassword,confirmPassword);
                 if (!user.Equals(null)&& !user.Equals(false))
                 {
+                    logger.LogInformation("Password Reset successfully");
                     return this.Ok(new
                     {
                         success = true,
@@ -110,6 +124,7 @@ namespace FundooApplication.Controllers
                 }
                 else
                 {
+                    logger.LogInformation("Invalid Password");
                     return this.BadRequest(new
                     {
                         Success = false,
@@ -117,8 +132,9 @@ namespace FundooApplication.Controllers
                     });
                 }               
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.ToString());
                 throw;
             }
         }
