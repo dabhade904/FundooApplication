@@ -13,5 +13,7 @@ namespace BusinessLayer.Interface
         public string ForgetPassword(string emailId);
         public bool ResetPassword(string emailId,string newPassword,string confirmPassword);
         public string EncryptPassword(string password);
+        public string DecryptPassword(string password);
+
     }
 }

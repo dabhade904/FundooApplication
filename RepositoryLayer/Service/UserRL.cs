@@ -29,7 +29,7 @@ namespace RepositoryLayer.Service
                 userEntity.FirstName = registration.FirstName;
                 userEntity.LastName = registration.LastName;
                 userEntity.EmailId = registration.EmailId;
-                userEntity.Password = registration.Password;
+                userEntity.Password = EncryptPassword(registration.Password);
                 fundooContext.Add(userEntity);
                 int result = fundooContext.SaveChanges();
                 if (result > 0)
@@ -72,10 +72,11 @@ namespace RepositoryLayer.Service
         {
             try
             {
-                var loginData = fundooContext.UserTable.SingleOrDefault(x => 
-                                                        x.EmailId == userLogin.EmailId && 
-                                                        x.Password == userLogin.Password);
-                if (!loginData.Equals(null))
+                var loginData = fundooContext.UserTable.SingleOrDefault(x => x.EmailId == userLogin.EmailId);
+
+                bool isValid=(loginData.EmailId==userLogin.EmailId && DecryptPassword(loginData.Password)==userLogin.Password);
+
+                if (!loginData.Equals(null)&& isValid)
                 {
                     var token = JwtMethod(loginData.EmailId, loginData.UserId);
                     return token;
@@ -140,6 +141,26 @@ namespace RepositoryLayer.Service
                     byte[] storePassword = ASCIIEncoding.ASCII.GetBytes(password);
                     string encryptPassword = Convert.ToBase64String(storePassword);
                     return encryptPassword;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public string DecryptPassword(string password)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(password))
+                {
+                    byte[] encryptedPassword=Convert.FromBase64String(password);
+                    string decryptPassword = ASCIIEncoding.ASCII.GetString(encryptedPassword);
+                    return decryptPassword;
                 }
                 else
                 {

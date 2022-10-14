@@ -3,6 +3,8 @@ using CommanLayer.Model;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
 using System;
+using System.Security.Cryptography;
+
 namespace BusinessLayer.Service
 {
     public class UserBL : IUserInterfaceBL
@@ -67,5 +69,17 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public string DecryptPassword(string password)
+        {
+            try
+            { 
+                return userInterfaceRL.DecryptPassword(password);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
