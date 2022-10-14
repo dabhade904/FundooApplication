@@ -22,7 +22,7 @@ namespace FundooApplication.Controllers
             try
             {
                 var result = userBL.UserRegistration(registration);
-                if (result != null)
+                if (!result.Equals(null))
                 {
                     return this.Ok(new { success = true, message = "User Registration Successfull", data = result });
                 }
@@ -42,7 +42,7 @@ namespace FundooApplication.Controllers
             try
             {
                 var result = userBL.Login(model);
-                if(result != null)
+                if (!result.Equals(null))
                 {
                     return this.Ok(new
                     {
@@ -71,7 +71,7 @@ namespace FundooApplication.Controllers
             try
             {
                 var result = userBL.ForgetPassword(emailId);
-                if (result != null)
+                if (!result.Equals(null))
                 {
                     return this.Ok(new
                     {
@@ -100,7 +100,7 @@ namespace FundooApplication.Controllers
             {
                 var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
                 var user = userBL.ResetPassword(email,newPassword,confirmPassword);
-                if (user != null)
+                if (!user.Equals(null)&& !user.Equals(false))
                 {
                     return this.Ok(new
                     {
@@ -113,7 +113,7 @@ namespace FundooApplication.Controllers
                     return this.BadRequest(new
                     {
                         Success = false,
-                        message = "Invalid Email ",
+                        message = "Invalid Password ",
                     });
                 }               
             }

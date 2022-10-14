@@ -14,7 +14,6 @@ namespace RepositoryLayer.Service
 {
     public class UserRL : IUserInterfaceRL
     {
-      //  private readonly AppSettings appSettings;
         private readonly FundooContext fundooContext;
         private readonly IConfiguration config;
         public UserRL(FundooContext fundooContext, IConfiguration config)
@@ -73,10 +72,10 @@ namespace RepositoryLayer.Service
         {
             try
             {
-                var loginData = fundooContext.FundooDbTable.SingleOrDefault(x => 
+                var loginData = fundooContext.UserTable.SingleOrDefault(x => 
                                                         x.EmailId == userLogin.EmailId && 
                                                         x.Password == userLogin.Password);
-                if (loginData != null)
+                if (!loginData.Equals(null))
                 {
                     var token = JwtMethod(loginData.EmailId, loginData.UserId);
                     return token;
@@ -89,19 +88,17 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-
         public string ForgetPassword(string emailId)
         {
             try
             {
-                var emailCheck = fundooContext.FundooDbTable.FirstOrDefault(e => e.EmailId == emailId);
-                if(emailCheck != null)
+                var emailCheck = fundooContext.UserTable.FirstOrDefault(e => e.EmailId == emailId);
+                if (!emailCheck.Equals(null))
                 {
                     var takan = JwtMethod(emailCheck.EmailId, emailCheck.UserId);
                     var msmqObjModel = new MSMQModel();
                     msmqObjModel.sendData2Queue(takan);
-                    return takan;
-                   
+                    return takan;                
                 }
                 else
                 {
@@ -119,7 +116,7 @@ namespace RepositoryLayer.Service
             {
                 if (newPassword.Equals(confirmPassword))
                 {
-                    var passwordResult = fundooContext.FundooDbTable.FirstOrDefault(e => e.EmailId == emailId);
+                    var passwordResult = fundooContext.UserTable.FirstOrDefault(e => e.EmailId == emailId);
                     passwordResult.Password=newPassword;
                     fundooContext.SaveChanges(); 
                     return true;
@@ -128,6 +125,26 @@ namespace RepositoryLayer.Service
                 {
                     return false;
                 }               
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public string EncryptPassword(string password)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(password))
+                {
+                    byte[] storePassword = ASCIIEncoding.ASCII.GetBytes(password);
+                    string encryptPassword = Convert.ToBase64String(storePassword);
+                    return encryptPassword;
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception)
             {
