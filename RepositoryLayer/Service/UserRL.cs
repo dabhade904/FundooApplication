@@ -118,7 +118,7 @@ namespace RepositoryLayer.Service
                 if (newPassword.Equals(confirmPassword))
                 {
                     var passwordResult = fundooContext.UserTable.FirstOrDefault(e => e.EmailId == emailId);
-                    passwordResult.Password=newPassword;
+                    passwordResult.Password= EncryptPassword(newPassword);
                     fundooContext.SaveChanges(); 
                     return true;
                 }

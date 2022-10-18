@@ -55,7 +55,6 @@ namespace FundooApplication
                     }
                 };
                 c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
-
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                  { jwtSecurityScheme, Array.Empty<string>() }
@@ -79,13 +78,11 @@ namespace FundooApplication
                     ValidateAudience = false
                 };
             });
-
             services.AddMemoryCache();
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = "localhost:6379";
             });
-
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

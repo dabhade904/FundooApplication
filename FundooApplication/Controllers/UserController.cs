@@ -29,12 +29,21 @@ namespace FundooApplication.Controllers
                 if (!result.Equals(null))
                 {
                     logger.LogInformation("User Registration Succesfull");
-                    return this.Ok(new { success = true, message = "User Registration Successfull", data = result });
+                    return this.Ok(new
+                    { 
+                        success = true,
+                        message = "User Registration Successfull",
+                        data = result 
+                    });
                 }
                 else
                 {
                     logger.LogInformation("User Registration UnSuccesfull");
-                    return this.BadRequest(new { success = false, message = "User Registration UnSuccessfull" });
+                    return this.BadRequest(new 
+                    {
+                        success = false,
+                        message = "User Registration UnSuccessfull" 
+                    });
                 }
             }
             catch (Exception ex)

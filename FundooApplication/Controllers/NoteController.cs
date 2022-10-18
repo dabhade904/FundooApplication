@@ -14,9 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using System.Threading.Tasks;
-
 namespace FundooApplication.Controllers
 {
     [Authorize]
@@ -29,7 +27,6 @@ namespace FundooApplication.Controllers
         private readonly IMemoryCache memoryCache;
         private readonly IDistributedCache distributedCache;
         private readonly ILogger<UserController> logger;
-
         public NoteController(NoteInterfaceBL noteInterfaceBL, FundooContext fundooContext, IMemoryCache memoryCache, IDistributedCache distributedCache, ILogger<UserController> logger)
         {
             this.noteInterfaceBL = noteInterfaceBL;
@@ -104,7 +101,6 @@ namespace FundooApplication.Controllers
                 throw;
             }
         }
-
         [HttpGet("GetNotes")]
         public IActionResult GetNotes()
         {
