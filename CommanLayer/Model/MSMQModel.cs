@@ -35,10 +35,10 @@ namespace CommanLayer.Model
                 var smtp = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("dabhade904s@gmail.com", "ealltpamkdwbjtmw"),
+                    Credentials = new NetworkCredential("dabhade904@gmail.com", "obilwizikyohjdis"),
                     EnableSsl = true
                 };
-                smtp.Send("dabhade904s@gmail.com", "dabhade904s@gmail.com", subject,body);
+                smtp.Send("dabhade904@gmail.com", "dabhade904@gmail.com", subject,body);
                 messageQueue.BeginReceive();
             }
             catch(Exception )
