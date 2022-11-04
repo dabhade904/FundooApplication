@@ -83,6 +83,14 @@ namespace FundooApplication
             {
                 options.Configuration = "localhost:6379";
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                name: "AllowOrigin",
+              builder => {
+                  builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+              });
+            });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -96,6 +104,7 @@ namespace FundooApplication
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("AllowOrigin");
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseRouting();

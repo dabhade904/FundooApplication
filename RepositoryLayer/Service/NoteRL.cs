@@ -143,7 +143,7 @@ namespace RepositoryLayer.Service
             try
             {
                 var result=fundooContext.NoteTable.Where(e=>e.noteID==noteId).FirstOrDefault();
-                if (!result.trash.Equals(true))
+                if (result.trash == true)
                 {
                     result.trash = false;
                     fundooContext.SaveChanges();
@@ -166,9 +166,10 @@ namespace RepositoryLayer.Service
             try
             {
                 var result = fundooContext.NoteTable.Where(e => e.noteID == noteId).FirstOrDefault();
-                if (!result.archive.Equals(true))
+                /* if (!result.archive.Equals(true))*/
+                if (result.archive == true)
                 {
-                    result.archive=false;
+                    result.archive= false;
                     fundooContext.SaveChanges();
                     return false;
                 }
@@ -178,6 +179,16 @@ namespace RepositoryLayer.Service
                     fundooContext.SaveChanges();
                     return true;
                 }
+                /*if (result.archive == true)
+                {
+                    result.archive = false;
+                    this.fundooContext.SaveChanges();
+                    return false;
+                }
+                result.archive = true;
+                this.fundooContext.SaveChanges();
+                return true;
+            */
             }
             catch (Exception)
             {
